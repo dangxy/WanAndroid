@@ -1,2 +1,2 @@
-# WanAndroid
-WanAndroid Clicent
+## WanAndroid
+WanAndroid Client
