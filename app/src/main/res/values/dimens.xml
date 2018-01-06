@@ -2,4 +2,9 @@
 <resources>
     <dimen name="card_view_width">8dp</dimen>
     <dimen name="card_view_max_width">10dp</dimen>
+    <dimen name="card_radius">2dp</dimen>
+    <dimen name="card_padding">10dp</dimen>
+    <dimen name="card_margin">3dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_max_elevation">8dp</dimen>
 </resources>

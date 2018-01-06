@@ -1,13 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dangxy.wanandroid.module.HomeFragment">
+    android:orientation="vertical"
+    tools:context="com.dangxy.wanandroid.module.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.dangxy.wanandroid.widget.BannerSwipeRefreshLayout
+        android:id="@+id/srl_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+    </com.dangxy.wanandroid.widget.BannerSwipeRefreshLayout>
+
+    <com.dangxy.wanandroid.base.EmptyLayout
+        android:id="@+id/empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="首页" />
-
-</FrameLayout>
+        android:background="@color/color_f5f5f5"
+        android:visibility="gone" />
+</LinearLayout>
