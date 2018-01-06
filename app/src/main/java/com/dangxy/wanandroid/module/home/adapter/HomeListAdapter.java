@@ -1,7 +1,6 @@
 package com.dangxy.wanandroid.module.home.adapter;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,9 @@ import android.widget.TextView;
 
 import com.dangxy.wanandroid.R;
 import com.dangxy.wanandroid.entity.CommonListEntity;
-import com.dangxy.wanandroid.module.home.BannerEntity;
+import com.dangxy.wanandroid.utils.GlideImageLoader;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +24,21 @@ import java.util.List;
 
 public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final HomeBannerAdapter homeBannerAdapter;
+    private ArrayList<String> mImageUrllist;
+    private ArrayList<String> mImageTitleList;
     private List<CommonListEntity.DataBean.DatasBean> listEntities = new ArrayList<>();
     public static final int ITEM_TYPE_HEADER = 0;
     public static final int ITEM_TYPE_CONTENT = 1;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private int mHeaderCount = 1;//头部View个数
-    public HomeListAdapter(Context context, List<CommonListEntity.DataBean.DatasBean> listEntities,BannerEntity bannerEntity) {
+    private int mHeaderCount = 1;
+
+    public HomeListAdapter(Context context, List<CommonListEntity.DataBean.DatasBean> listEntities, ArrayList<String> imageUrlList, ArrayList<String> imageTitleList) {
         this.listEntities = listEntities;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        homeBannerAdapter = new HomeBannerAdapter(mContext, bannerEntity.getData());
+        this.mImageUrllist = imageUrlList;
+        this.mImageTitleList = imageTitleList;
     }
 
 
@@ -53,11 +57,18 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).viewPager.setAdapter(homeBannerAdapter);
+            ((HeaderViewHolder) holder).viewPager.setImages(mImageUrllist);
+            ((HeaderViewHolder) holder).viewPager.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
+            ((HeaderViewHolder) holder).viewPager.setImageLoader(new GlideImageLoader());
+            ((HeaderViewHolder) holder).viewPager.setBannerTitles(mImageTitleList);
+            ((HeaderViewHolder) holder).viewPager.isAutoPlay(true);
+            ((HeaderViewHolder) holder).viewPager.setDelayTime(2500);
+            ((HeaderViewHolder) holder).viewPager.setIndicatorGravity(BannerConfig.CENTER);
+            ((HeaderViewHolder) holder).viewPager.start();
         } else if (holder instanceof BodyViewHolder) {
-            ((BodyViewHolder) holder).title.setText(listEntities.get(position-1).getTitle());
-            ((BodyViewHolder) holder).summary.setText(listEntities.get(position-1).getAuthor());
-            ((BodyViewHolder) holder).more.setText(listEntities.get(position-1).getNiceDate());
+            ((BodyViewHolder) holder).title.setText(listEntities.get(position - 1).getTitle());
+            ((BodyViewHolder) holder).summary.setText(listEntities.get(position - 1).getAuthor());
+            ((BodyViewHolder) holder).more.setText(listEntities.get(position - 1).getNiceDate());
         }
 
 
@@ -74,7 +85,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return listEntities.size()+1;
+        return listEntities.size() + 1;
     }
 
 
@@ -92,7 +103,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private ViewPager viewPager;
+        private Banner viewPager;
 
         public HeaderViewHolder(View convertView) {
             super(convertView);

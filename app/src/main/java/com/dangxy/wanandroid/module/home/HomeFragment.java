@@ -8,9 +8,10 @@ import com.dangxy.wanandroid.R;
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.base.BaseLazyFragment;
 import com.dangxy.wanandroid.entity.CommonListEntity;
-import com.dangxy.wanandroid.module.home.adapter.HomeBannerAdapter;
 import com.dangxy.wanandroid.module.home.adapter.HomeListAdapter;
 import com.dangxy.wanandroid.widget.BannerSwipeRefreshLayout;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -29,7 +30,8 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
     private HomePresenter homePresenter;
     private HomeListAdapter homeListAdapter;
     private BannerEntity bannerEntity;
-    private HomeBannerAdapter homeBannerAdapter;
+    private ArrayList<String> imageUrlList = new ArrayList<>();
+    private ArrayList<String> imageTitleList = new ArrayList<>();
 
     public HomeFragment() {
     }
@@ -57,13 +59,17 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
 
     @Override
     public void bannerData(BannerEntity bannerEntity) {
-        this.bannerEntity = bannerEntity;
+        for (BannerEntity.DataBean dataBean : bannerEntity.getData()
+                ) {
+            imageUrlList.add(dataBean.getImagePath());
+            imageTitleList.add(dataBean.getTitle());
+        }
     }
 
     @Override
     public void homeData(CommonListEntity commonListEntity, int page) {
         if (page == 0) {
-            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), bannerEntity);
+            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList,imageTitleList);
             rvHome.setAdapter(homeListAdapter);
         } else {
             homeListAdapter.addAll(commonListEntity.getData().getDatas());
