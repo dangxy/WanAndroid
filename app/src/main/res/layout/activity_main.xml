@@ -1,18 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     tools:context="com.dangxy.wanandroid.MainActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="首页"
+            android:textSize="18sp"
+            android:textColor="@color/common_color_white"
+            android:textStyle="bold"/>
+    </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="49dp"
+        ></FrameLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        tl:cardElevation="@dimen/card_view_width"
+        tl:cardMaxElevation="@dimen/card_view_max_width">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#58b2b2b2" />
+
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/ctl_home_tab"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/common_color_white"
+                tl:tl_iconHeight="18dp"
+                tl:tl_iconWidth="18dp"
+                tl:tl_indicator_color="@color/colorPrimary"
+                tl:tl_indicator_height="0dp"
+                tl:tl_textSelectColor="@color/colorPrimary"
+                tl:tl_textUnselectColor="@color/color_262626"
+                tl:tl_textsize="10sp" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
