@@ -1,13 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dangxy.wanandroid.module.CategoryFragment">
+    android:orientation="vertical"
+    tools:context="com.dangxy.wanandroid.module.category.CategoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_wan_android_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="分类"/>
+        android:layout_height="50dp"
+        android:background="@color/common_color_white"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/colorPrimaryDark"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/color_222f3b"
+        app:tabTextColor="@color/color_808e97" />
 
-</FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_wan_android_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
