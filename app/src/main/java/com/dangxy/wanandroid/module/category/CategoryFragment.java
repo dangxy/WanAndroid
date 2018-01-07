@@ -46,7 +46,7 @@ public class CategoryFragment extends BaseLazyFragment implements CategoryContra
     @Override
     public void categoryData(CategoryEntity categoryEntity) {
         CategoryAdapter categoryAdapter = new CategoryAdapter(getFragmentManager(), categoryEntity.getData());
-        vpWanAndroidList.setOffscreenPageLimit(categoryAdapter.getCount() - 1);
+        vpWanAndroidList.setOffscreenPageLimit(categoryEntity.getData().size()-1);
         vpWanAndroidList.setAdapter(categoryAdapter);
         tlWanAndroidList.setupWithViewPager(vpWanAndroidList);
         tlWanAndroidList.setTabMode(TabLayout.MODE_SCROLLABLE);

@@ -105,7 +105,7 @@ public class RetrofitWanAndroid {
             Request request = chain.request();
 
             long t1 = System.nanoTime();//请求发起的时间
-            MLog.e("DANG", String.format("发送请求 %s on %s%n%s",
+            MLog.d("DANG", String.format("发送请求 %s on %s%n%s",
                     request.url(), chain.connection(), request.headers()));
 
             Response response = chain.proceed(request);
@@ -113,7 +113,7 @@ public class RetrofitWanAndroid {
             long t2 = System.nanoTime();//收到响应的时间
 
             ResponseBody responseBody = response.peekBody(1024 * 1024);
-            MLog.e("Readhub", String.format("接收响应: [%s] %n返回json:【%s】 %.1fms%n%s",
+            MLog.d("wan-android", String.format("接收响应: [%s] %n返回json:【%s】 %.1fms%n%s",
                     response.request().url(),
                     responseBody.string(),
                     (t2 - t1) / 1e6d,

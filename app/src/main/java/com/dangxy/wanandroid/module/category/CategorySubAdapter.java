@@ -14,19 +14,17 @@ import java.util.List;
  * @date 2018/1/7
  */
 
-public class CategoryAdapter extends FragmentPagerAdapter {
-    private List<Fragment> fragments ;
-    private List<String> titleList =new ArrayList<>();
-    private ArrayList<TreeEntity> subId =new ArrayList<>();
-    public CategoryAdapter(FragmentManager fm, List<TreeEntity> treeEntities) {
+public class CategorySubAdapter extends FragmentPagerAdapter {
+    private List<Fragment> fragments;
+    private List<String> titleList = new ArrayList<>();
+
+    public CategorySubAdapter(FragmentManager fm, ArrayList<TreeEntity> arrayListId) {
         super(fm);
         fragments = new ArrayList<>();
-        for (TreeEntity treeEntity : treeEntities
-                ) {
-            subId.addAll(treeEntity.getChildren());
-            CategorySubFragment categorySubFragment =CategorySubFragment.newInstance(treeEntity.getChildren());
-            fragments.add(categorySubFragment);
-            titleList.add(treeEntity.getName());
+        for (int i = 0; i < arrayListId.size(); i++) {
+            CategorySubContentFragment categorySubContentFragment = CategorySubContentFragment.newInstance(arrayListId.get(i).getId() + "");
+            fragments.add(categorySubContentFragment);
+            titleList.add(arrayListId.get(i).getName());
 
 
         }

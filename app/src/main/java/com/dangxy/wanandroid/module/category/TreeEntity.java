@@ -1,5 +1,9 @@
 package com.dangxy.wanandroid.module.category;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +12,7 @@ import java.util.List;
  * @date 2018/1/7
  */
 
-public class TreeEntity {
+public class TreeEntity implements Parcelable {
         /**
          * id : 150
          * name : 开发环境
@@ -83,5 +87,47 @@ public class TreeEntity {
             this.children = children;
         }
 
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeInt(this.courseId);
+        dest.writeInt(this.parentChapterId);
+        dest.writeInt(this.order);
+        dest.writeInt(this.visible);
+        dest.writeList(this.children);
+    }
+
+    public TreeEntity() {
+    }
+
+    protected TreeEntity(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.courseId = in.readInt();
+        this.parentChapterId = in.readInt();
+        this.order = in.readInt();
+        this.visible = in.readInt();
+        this.children = new ArrayList<TreeEntity>();
+        in.readList(this.children, List.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<TreeEntity> CREATOR = new Parcelable.Creator<TreeEntity>() {
+            @Override
+        public TreeEntity createFromParcel(Parcel source) {
+            return new TreeEntity(source);
+        }
+        @Override
+        public TreeEntity[] newArray(int size) {
+            return new TreeEntity[size];
+        }
+    };
+
+
+}
 

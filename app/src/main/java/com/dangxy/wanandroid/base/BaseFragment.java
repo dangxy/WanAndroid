@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dangxy.wanandroid.R;
-import com.dangxy.wanandroid.utils.MLog;
 import com.dangxy.wanandroid.utils.NetUtil;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxFragment;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
  * @description Fragment基类
  * @date 2017/12/23
  */
-public abstract class BaseLazyFragment extends RxFragment implements IBaseView, EmptyLayout.OnRetryListener {
+public abstract class BaseFragment extends RxFragment implements IBaseView, EmptyLayout.OnRetryListener {
     @Nullable
     @BindView(R.id.empty_layout)
     EmptyLayout mEmptyLayout;
@@ -41,42 +40,16 @@ public abstract class BaseLazyFragment extends RxFragment implements IBaseView, 
         ButterKnife.bind(this, mRootView);
         mContext = getActivity();
         initViews();
-        lazyLoad();
+        loadData();
         return mRootView;
     }
 
-    public void lazyLoad() {
-        if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
-            if (checkNetwork() == -1) {
-                if (mEmptyLayout != null) {
-                    mEmptyLayout.setEmptyStatus(EmptyLayout.STATUS_NO_NET);
-                    mEmptyLayout.setRetryListener(this);
-                }
 
-            } else {
-                loadData();
-                mIsInited = true;
-                MLog.d("LOAD", "第一次加载"+this.getClass().getName());
-            }
-
-        } else {
-            MLog.d("LOAD", "不在加载"+this.getClass().getName());
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            lazyLoad();
-        }
-    }
 
     /**
      * 加载数据
      */
     protected abstract void loadData();
-
 
     /**
      * 绑定布局文件
