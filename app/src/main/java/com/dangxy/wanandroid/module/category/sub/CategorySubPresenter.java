@@ -1,8 +1,9 @@
-package com.dangxy.wanandroid.module.category;
+package com.dangxy.wanandroid.module.category.sub;
 
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.api.RetrofitWanAndroid;
 import com.dangxy.wanandroid.entity.CommonListEntity;
+import com.dangxy.wanandroid.module.category.RxCategoryService;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -15,15 +16,14 @@ import io.reactivex.schedulers.Schedulers;
  * @date 2018/1/7
  */
 
-public class CategorySubContentPresenter implements CategorySubContentContract.ICategorySubContentPresenter {
+public class CategorySubPresenter implements CategorySubContract.ICategorySubPresenter {
+    private CategorySubContract.ICategorySubView iCategorySubView;
     private RxCategoryService rxCategoryService = new RetrofitWanAndroid().newInstance(WanAndroidApplication.getmContext()).create(RxCategoryService.class);
-
-    private CategorySubContentContract.ICategorySubContentView iCategorySubContentView;
-    private int page = 0;
     private String id;
+    private int page = 0;
 
-    public CategorySubContentPresenter(CategorySubContentContract.ICategorySubContentView iCategorySubContentView, String id) {
-        this.iCategorySubContentView = iCategorySubContentView;
+    public CategorySubPresenter(CategorySubContract.ICategorySubView iCategorySubView, String id) {
+        this.iCategorySubView = iCategorySubView;
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class CategorySubContentPresenter implements CategorySubContentContract.I
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        iCategorySubContentView.showLoading();
+                        iCategorySubView.showLoading();
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -43,8 +43,8 @@ public class CategorySubContentPresenter implements CategorySubContentContract.I
                     @Override
                     public void accept(CommonListEntity commonListEntity) throws Exception {
 
-                        iCategorySubContentView.hideLoading();
-                        iCategorySubContentView.categoryListData(commonListEntity);
+                        iCategorySubView.hideLoading();
+                        iCategorySubView.categoryListData(commonListEntity);
                     }
                 });
     }

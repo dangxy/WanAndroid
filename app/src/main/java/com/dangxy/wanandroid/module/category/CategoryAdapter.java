@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.dangxy.wanandroid.module.category.sub.CategorySubFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
         for (TreeEntity treeEntity : treeEntities
                 ) {
             subId.addAll(treeEntity.getChildren());
-            CategorySubFragment categorySubFragment =CategorySubFragment.newInstance(treeEntity.getChildren());
+            CategorySubFragment categorySubFragment = CategorySubFragment.newInstance(treeEntity.getChildren());
             fragments.add(categorySubFragment);
             titleList.add(treeEntity.getName());
 
