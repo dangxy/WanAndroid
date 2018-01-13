@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.api.RetrofitWanAndroid;
+import com.dangxy.wanandroid.entity.CommonCollectEntity;
 import com.dangxy.wanandroid.entity.CommonListEntity;
 import com.dangxy.wanandroid.utils.LoadMoreDelegate;
 
@@ -141,5 +142,43 @@ public class HomePresenter implements HomeContract.IHomePresenter, SwipeRefreshL
     public void notifyLoadingFinished() {
 
         loadingCount.decrementAndGet();
+    }
+
+    public void collectArtcle(String id){
+      rxHomeService.collect(id)
+              .subscribeOn(Schedulers.io())
+              .doOnSubscribe(new Consumer<Disposable>() {
+                  @Override
+                  public void accept(Disposable disposable) throws Exception {
+                      iHomeView.showLoading();
+                  }
+              })
+              .subscribeOn(AndroidSchedulers.mainThread())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(new Consumer<CommonCollectEntity>() {
+                  @Override
+                  public void accept(CommonCollectEntity commonCollectEntity) throws Exception {
+                      iHomeView.hideLoading();
+                      iHomeView.collect(commonCollectEntity);
+                  }
+              });
+    }public void uncollectArticle(String id){
+      rxHomeService.unCollect(id)
+              .subscribeOn(Schedulers.io())
+              .doOnSubscribe(new Consumer<Disposable>() {
+                  @Override
+                  public void accept(Disposable disposable) throws Exception {
+                      iHomeView.showLoading();
+                  }
+              })
+              .subscribeOn(AndroidSchedulers.mainThread())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(new Consumer<CommonCollectEntity>() {
+                  @Override
+                  public void accept(CommonCollectEntity commonCollectEntity) throws Exception {
+                      iHomeView.hideLoading();
+                      iHomeView.unCollect(commonCollectEntity);
+                  }
+              });
     }
 }

@@ -60,6 +60,7 @@ public class RetrofitWanAndroid {
                             .setLevel(BuildConfig.DEBUG ?
                                     HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                     .addInterceptor(new LoggingInterceptor())
+                    .addInterceptor(new AddCookiesInterceptor())
                     .addInterceptor(new ResponseCookieInterceptor())
                     .addNetworkInterceptor(mCacheControlInterceptor).build();
         } catch (Exception e) {
@@ -157,7 +158,6 @@ public class RetrofitWanAndroid {
                 SharedPreferences sharedPreferences = WanAndroidApplication.getmContext().getSharedPreferences("cookie", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("cookie", cookieBuffer.toString());
-                MLog.e("DANG",cookieBuffer.toString());
                 editor.commit();
             }
 
@@ -165,4 +165,29 @@ public class RetrofitWanAndroid {
         }
 
     }
+
+    public class AddCookiesInterceptor implements Interceptor {
+
+        public AddCookiesInterceptor() {
+            super();
+
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+
+            final Request.Builder builder = chain.request().newBuilder();
+            SharedPreferences sharedPreferences = WanAndroidApplication.getmContext().getSharedPreferences("cookie", Context.MODE_PRIVATE);
+            Observable.just(sharedPreferences.getString("cookie", ""))
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String cookie) {
+                            //添加cookie
+                            builder.addHeader("Cookie", cookie);
+                        }
+                    });
+            return chain.proceed(builder.build());
+        }
+    }
+
 }

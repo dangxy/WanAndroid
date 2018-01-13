@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -20,8 +22,20 @@
             android:gravity="center"
             android:text="首页"
             android:textSize="18sp"
+            android:layout_centerInParent="true"
             android:textColor="@color/common_color_white"
             android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="登录"
+            android:layout_alignParentRight="true"
+           android:gravity="center"
+            android:textColor="@color/common_color_white"
+            />
+</RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <FrameLayout
         android:id="@+id/fl_main"

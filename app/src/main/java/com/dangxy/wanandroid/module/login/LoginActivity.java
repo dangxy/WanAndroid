@@ -17,7 +17,7 @@ import butterknife.OnClick;
  * @description 描述
  * @date 2018/1/13
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginContract.ILoginView {
 
 
     @BindView(R.id.email)
@@ -30,10 +30,11 @@ public class LoginActivity extends BaseActivity {
     LinearLayout emailLoginForm;
     @BindView(R.id.login_form)
     ScrollView loginForm;
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void initView() {
-
+        loginPresenter = new LoginPresenter(this);
     }
 
     @Override
@@ -43,5 +44,15 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.email_sign_in_button)
     public void onViewClicked() {
+        loginPresenter.login(email.getText().toString(), password.getText().toString());
+    }
+
+    @Override
+    public void loginWithPassword(LoginEntity loginEntity) {
+
+        if (loginEntity.getErrorCode() == 0) {
+            finish();
+        }
+
     }
 }

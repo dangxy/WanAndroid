@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dangxy.wanandroid.R;
@@ -32,6 +34,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private int mHeaderCount = 1;
+    private CollectClickListener mCollectClickListener;
 
     public HomeListAdapter(Context context, List<CommonListEntity.DataBean.DatasBean> listEntities, ArrayList<String> imageUrlList, ArrayList<String> imageTitleList) {
         this.listEntities = listEntities;
@@ -41,6 +44,16 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.mImageTitleList = imageTitleList;
     }
 
+    public interface CollectClickListener {
+
+        void onCollectClickListener(boolean collect,String id,ImageView imageView);
+
+    }
+
+    public void setOnDetailClickListener(HomeListAdapter.CollectClickListener detailClickListener) {
+
+        this.mCollectClickListener = detailClickListener;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,7 +68,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             ((HeaderViewHolder) holder).viewPager.setImages(mImageUrllist);
             ((HeaderViewHolder) holder).viewPager.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
@@ -69,6 +82,20 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((BodyViewHolder) holder).title.setText(listEntities.get(position - 1).getTitle());
             ((BodyViewHolder) holder).summary.setText(listEntities.get(position - 1).getAuthor());
             ((BodyViewHolder) holder).more.setText(listEntities.get(position - 1).getNiceDate());
+            if(listEntities.get(position-1).getCollect()){
+                ((BodyViewHolder) holder).imageView.setImageResource(R.drawable.icon_collected);
+
+            }else {
+                ((BodyViewHolder) holder).imageView.setImageResource(R.drawable.icon_collect);
+
+            }
+
+            ((BodyViewHolder) holder).relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCollectClickListener.onCollectClickListener(listEntities.get(position-1).getCollect(),listEntities.get(position-1).getId()+"",((BodyViewHolder) holder).imageView);
+                }
+            });
         }
 
 
@@ -91,6 +118,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class BodyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, summary, more;
+        public ImageView imageView;
+        public RelativeLayout relativeLayout;
 
         public BodyViewHolder(View convertView) {
             super(convertView);
@@ -98,6 +127,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             title = (TextView) convertView.findViewById(R.id.title);
             summary = (TextView) convertView.findViewById(R.id.summary);
             more = (TextView) convertView.findViewById(R.id.more);
+            imageView = (ImageView) convertView.findViewById(R.id.iv_collect);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.ll_collect);
         }
     }
 

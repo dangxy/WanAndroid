@@ -1,12 +1,16 @@
 package com.dangxy.wanandroid.module.home;
 
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.dangxy.wanandroid.R;
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.base.BaseLazyFragment;
+import com.dangxy.wanandroid.entity.CommonCollectEntity;
 import com.dangxy.wanandroid.entity.CommonListEntity;
 import com.dangxy.wanandroid.module.home.adapter.HomeListAdapter;
 import com.dangxy.wanandroid.widget.BannerSwipeRefreshLayout;
@@ -20,7 +24,7 @@ import butterknife.BindView;
  * @description 描述
  * @date 2018/1/6
  */
-public class HomeFragment extends BaseLazyFragment implements HomeContract.IHomeView {
+public class HomeFragment extends BaseLazyFragment implements HomeContract.IHomeView, HomeListAdapter.CollectClickListener {
 
 
     @BindView(R.id.srl_home)
@@ -32,6 +36,7 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
     private BannerEntity bannerEntity;
     private ArrayList<String> imageUrlList = new ArrayList<>();
     private ArrayList<String> imageTitleList = new ArrayList<>();
+    private ImageView mCollectView;
 
     public HomeFragment() {
     }
@@ -69,12 +74,49 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
     @Override
     public void homeData(CommonListEntity commonListEntity, int page) {
         if (page == 0) {
-            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList,imageTitleList);
+            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList, imageTitleList);
             rvHome.setAdapter(homeListAdapter);
+            homeListAdapter.setOnDetailClickListener(this);
         } else {
             homeListAdapter.addAll(commonListEntity.getData().getDatas());
         }
     }
 
 
+    @Override
+    public void onCollectClickListener(boolean collect, String id, ImageView imageView) {
+        this.mCollectView = imageView;
+        if (collect) {
+            homePresenter.uncollectArticle(id);
+
+        } else {
+            homePresenter.collectArtcle(id);
+        }
+    }
+
+    @Override
+    public void collect(CommonCollectEntity commonCollectEntity) {
+        if (commonCollectEntity.getErrorCode() == 0) {
+            Snackbar.make(rvHome, "收藏成功", Snackbar.LENGTH_SHORT).setAction("知道了", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            }).show();
+            mCollectView.setImageResource(R.drawable.icon_collected);
+        }
+    }
+
+    @Override
+    public void unCollect(CommonCollectEntity commonCollectEntity) {
+        if (commonCollectEntity.getErrorCode() == 0) {
+            Snackbar.make(rvHome, "取消收藏成功", Snackbar.LENGTH_SHORT).setAction("知道了", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            }).show();
+            mCollectView.setImageResource(R.drawable.icon_collect);
+        }
+
+    }
 }
