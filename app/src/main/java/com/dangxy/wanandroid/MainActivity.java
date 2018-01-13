@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.dangxy.wanandroid.base.BaseActivity;
 import com.dangxy.wanandroid.entity.TabEntity;
-import com.dangxy.wanandroid.module.MeFragment;
+import com.dangxy.wanandroid.module.me.MeFragment;
 import com.dangxy.wanandroid.module.category.CategoryFragment;
 import com.dangxy.wanandroid.module.home.HomeFragment;
 import com.dangxy.wanandroid.module.login.LoginActivity;

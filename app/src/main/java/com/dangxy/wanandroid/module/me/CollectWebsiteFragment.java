@@ -1,4 +1,4 @@
-package com.dangxy.wanandroid.module;
+package com.dangxy.wanandroid.module.me;
 
 
 import android.os.Bundle;
@@ -10,21 +10,21 @@ import android.view.ViewGroup;
 import com.dangxy.wanandroid.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * @description  描述
+ * @author  dangxy99
+ * @date   2018/1/13
  */
-public class MeFragment extends Fragment {
+public class CollectWebsiteFragment extends Fragment {
 
 
-    public MeFragment() {
-        // Required empty public constructor
+    public CollectWebsiteFragment() {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_me, container, false);
+        return inflater.inflate(R.layout.fragment_collect_website, container, false);
     }
 
 }

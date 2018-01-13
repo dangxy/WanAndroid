@@ -38,7 +38,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".module.login.LoginActivity"></activity>
+        <activity android:name=".module.login.LoginActivity" />
+        <activity
+            android:name=".module.me.CollectActivity"
+            android:label="@string/title_activity_collect"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
