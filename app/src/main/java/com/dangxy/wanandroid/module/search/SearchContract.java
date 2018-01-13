@@ -2,7 +2,6 @@ package com.dangxy.wanandroid.module.search;
 
 import com.dangxy.wanandroid.base.IBasePresenter;
 import com.dangxy.wanandroid.base.IBaseView;
-import com.dangxy.wanandroid.entity.CommonListEntity;
 
 /**
  * @author dangxy99
@@ -11,7 +10,9 @@ import com.dangxy.wanandroid.entity.CommonListEntity;
 public interface SearchContract {
 
     interface ISearchView extends IBaseView {
-        void searchListData(CommonListEntity commonListEntity, int page);
+        void getWebsite(WebsitesEntity websitesEntity);
+
+        void getHotKey(HotKeyEntity hotKeyEntity);
     }
 
     interface ISearchPresenter extends IBasePresenter {

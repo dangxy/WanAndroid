@@ -59,4 +59,5 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+    compile 'com.hyman:flowlayout-lib:1.1.2'
 }

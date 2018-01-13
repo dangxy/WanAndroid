@@ -1,24 +1,21 @@
 package com.dangxy.wanandroid.module.search;
 
 
-import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dangxy.wanandroid.R;
-import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.base.BaseLazyFragment;
-import com.dangxy.wanandroid.entity.CommonListEntity;
-import com.dangxy.wanandroid.module.category.sub.CategorySubAdapter;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -34,13 +31,15 @@ public class SearchFragment extends BaseLazyFragment implements SearchContract.I
     EditText etSearchContent;
     @BindView(R.id.iv_search_delete)
     ImageView ivSearchDelete;
-    @BindView(R.id.rv_search)
-    RecyclerView rvSearch;
-    @BindView(R.id.srl_search)
-    SwipeRefreshLayout srlSearch;
-
+    @BindView(R.id.tfl_search)
+    TagFlowLayout tflSearch;
+    @BindView(R.id.tfl_hot)
+    TagFlowLayout tflHot;
+    private ArrayList<String> websitesList;
+    private ArrayList<String> hotkeyList;
+    private ArrayList<Integer> colorList;
     private SearchPresenter searchPresenter;
-    private CategorySubAdapter categorySubAdapter;
+    private LayoutInflater mInflater;
 
     public SearchFragment() {
     }
@@ -50,7 +49,6 @@ public class SearchFragment extends BaseLazyFragment implements SearchContract.I
     protected void loadData() {
         searchPresenter = new SearchPresenter(this);
         searchPresenter.getData();
-        searchPresenter.setRefresh(srlSearch, rvSearch);
     }
 
     @Override
@@ -60,49 +58,55 @@ public class SearchFragment extends BaseLazyFragment implements SearchContract.I
 
     @Override
     protected void initViews() {
-        etSearchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mInflater = LayoutInflater.from(mContext);
+        websitesList = new ArrayList<>();
+        hotkeyList = new ArrayList<>();
+        colorList = new ArrayList<>();
+        colorList.add(Color.parseColor("#1296db"));
+        colorList.add(Color.parseColor("#d4237a"));
+        colorList.add(Color.parseColor("#d81e06"));
+        colorList.add(Color.parseColor("#2c2c2c"));
+        colorList.add(Color.parseColor("#13227a"));
+        colorList.add(Color.parseColor("#1afa29"));
+    }
+
+
+    @Override
+    public void getWebsite(WebsitesEntity websitesEntity) {
+        for (int i = 0; i < websitesEntity.getData().size(); i++) {
+            websitesList.add(websitesEntity.getData().get(i).getName());
+        }
+        tflSearch.setAdapter(new TagAdapter<String>(websitesList) {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                InputMethodManager imm = (InputMethodManager) textView
-                        .getContext().getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive()) {
-                    imm.hideSoftInputFromWindow(
-                            textView.getApplicationWindowToken(), 0);
-                }
-                if (!TextUtils.isEmpty(etSearchContent.getText().toString())) {
-                    searchPresenter.searchArticle(etSearchContent.getText().toString());
-                } else {
-                    Toast.makeText(mContext, "请输入要搜索的名字~", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                return false;
+            public View getView(FlowLayout parent, int position, String o) {
+                TextView tv = (TextView) mInflater.inflate(R.layout.tv,
+                        tflSearch, false);
+                tv.setText(o);
+                tv.setTextColor(colorList.get(getRandomIntNum(0, colorList.size() - 1)));
+                return tv;
             }
-
         });
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WanAndroidApplication.getmContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvSearch.setLayoutManager(linearLayoutManager);
     }
 
     @Override
-    public void searchListData(CommonListEntity commonListEntity, int page) {
-        if (page == 0) {
-            categorySubAdapter = new CategorySubAdapter(mContext, commonListEntity.getData().getDatas());
-            rvSearch.setAdapter(categorySubAdapter);
-        } else {
-            categorySubAdapter.addAll(commonListEntity.getData().getDatas());
+    public void getHotKey(HotKeyEntity hotKeyEntity) {
+        for (int i = 0; i < hotKeyEntity.getData().size(); i++) {
+            hotkeyList.add(hotKeyEntity.getData().get(i).getName());
         }
+        tflHot.setAdapter(new TagAdapter<String>(hotkeyList) {
+            @Override
+            public View getView(FlowLayout parent, int position, String o) {
+                TextView tv = (TextView) mInflater.inflate(R.layout.tv,
+                        tflSearch, false);
+                tv.setText(o);
+                tv.setTextColor(colorList.get(getRandomIntNum(0, colorList.size() - 1)));
+                return tv;
+            }
+        });
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser) {
-            etSearchContent.setFocusable(true);
-            etSearchContent.setFocusableInTouchMode(true);
-            etSearchContent.requestFocus();
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
+    public static int getRandomIntNum(int min, int max) {
+        Random rdm = new Random();
+        return rdm.nextInt(max - min + 1) + min;
     }
 }
