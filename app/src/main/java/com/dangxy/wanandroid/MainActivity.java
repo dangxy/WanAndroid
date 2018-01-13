@@ -9,7 +9,7 @@ import com.dangxy.wanandroid.entity.TabEntity;
 import com.dangxy.wanandroid.module.category.CategoryFragment;
 import com.dangxy.wanandroid.module.home.HomeFragment;
 import com.dangxy.wanandroid.module.MeFragment;
-import com.dangxy.wanandroid.module.SearchFragment;
+import com.dangxy.wanandroid.module.search.SearchFragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;

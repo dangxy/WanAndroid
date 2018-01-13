@@ -1,6 +1,7 @@
 package com.dangxy.wanandroid.api;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.dangxy.wanandroid.BuildConfig;
 import com.dangxy.wanandroid.WanAndroidApplication;
@@ -22,10 +23,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * @author dangxueyi
- * @description  WanAndroid 网络请求
+ * @description WanAndroid 网络请求
  * @date 2017/12/13
  */
 
@@ -56,6 +60,7 @@ public class RetrofitWanAndroid {
                             .setLevel(BuildConfig.DEBUG ?
                                     HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                     .addInterceptor(new LoggingInterceptor())
+                    .addInterceptor(new ResponseCookieInterceptor())
                     .addNetworkInterceptor(mCacheControlInterceptor).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,5 +129,40 @@ public class RetrofitWanAndroid {
         }
     }
 
+    public class ResponseCookieInterceptor implements Interceptor {
 
+        public ResponseCookieInterceptor() {
+            super();
+        }
+        @Override
+        public Response intercept(Interceptor.Chain chain) throws IOException {
+
+            Response originalResponse = chain.proceed(chain.request());
+            if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+                final StringBuffer cookieBuffer = new StringBuffer();
+                Observable.from(originalResponse.headers("Set-Cookie"))
+                        .map(new Func1<String, String>() {
+                            @Override
+                            public String call(String s) {
+                                String[] cookieArray = s.split(";");
+                                return cookieArray[0];
+                            }
+                        })
+                        .subscribe(new Action1<String>() {
+                            @Override
+                            public void call(String cookie) {
+                                cookieBuffer.append(cookie).append(";");
+                            }
+                        });
+                SharedPreferences sharedPreferences = WanAndroidApplication.getmContext().getSharedPreferences("cookie", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("cookie", cookieBuffer.toString());
+                MLog.e("DANG",cookieBuffer.toString());
+                editor.commit();
+            }
+
+            return originalResponse;
+        }
+
+    }
 }
