@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dangxy.wanandroid.R;
@@ -22,9 +23,21 @@ import java.util.List;
 public class CollectArticleAdapter extends RecyclerView.Adapter<CollectArticleAdapter.ViewHolder> {
 
     private List<CollectArticleEntity.DataBean.DatasBean> listEntities = new ArrayList<>();
+    private CollectArticleClickListener mCollectClickListener;
 
     public CollectArticleAdapter(Context context, List<CollectArticleEntity.DataBean.DatasBean> listEntities) {
         this.listEntities = listEntities;
+    }
+
+    public interface CollectArticleClickListener {
+
+        void onDetailClickListener(String url);
+
+    }
+
+    public void setOnDetailClickListener(CollectArticleClickListener detailClickListener) {
+
+        this.mCollectClickListener = detailClickListener;
     }
 
 
@@ -36,13 +49,18 @@ public class CollectArticleAdapter extends RecyclerView.Adapter<CollectArticleAd
 
 
     @Override
-    public void onBindViewHolder(CollectArticleAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CollectArticleAdapter.ViewHolder holder, final int position) {
 
         holder.title.setText(listEntities.get(position).getTitle());
         holder.summary.setText(listEntities.get(position ).getAuthor());
         holder.more.setText(listEntities.get(position).getNiceDate());
         holder.imageView.setImageResource(R.drawable.icon_collected);
-
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCollectClickListener.onDetailClickListener(listEntities.get(position).getLink());
+            }
+        });
     }
 
 
@@ -55,6 +73,7 @@ public class CollectArticleAdapter extends RecyclerView.Adapter<CollectArticleAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title, summary, more;
         public ImageView imageView;
+        public RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView) {
             super(convertView);
@@ -63,6 +82,7 @@ public class CollectArticleAdapter extends RecyclerView.Adapter<CollectArticleAd
             summary = (TextView) convertView.findViewById(R.id.summary);
             more = (TextView) convertView.findViewById(R.id.more);
             imageView = (ImageView) convertView.findViewById(R.id.iv_collect);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.rl_detail);
         }
     }
 

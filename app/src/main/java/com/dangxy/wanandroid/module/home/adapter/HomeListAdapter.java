@@ -47,6 +47,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public interface CollectClickListener {
 
         void onCollectClickListener(boolean collect,String id,ImageView imageView);
+        void onDetailClickListener(String url);
 
     }
 
@@ -96,6 +97,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     mCollectClickListener.onCollectClickListener(listEntities.get(position-1).getCollect(),listEntities.get(position-1).getId()+"",((BodyViewHolder) holder).imageView);
                 }
             });
+            ((BodyViewHolder) holder).rlDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCollectClickListener.onDetailClickListener(listEntities.get(position-1).getLink());
+                }
+            });
         }
 
 
@@ -120,6 +127,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public TextView title, summary, more;
         public ImageView imageView;
         public RelativeLayout relativeLayout;
+        public RelativeLayout rlDetail;
 
         public BodyViewHolder(View convertView) {
             super(convertView);
@@ -129,6 +137,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             more = (TextView) convertView.findViewById(R.id.more);
             imageView = (ImageView) convertView.findViewById(R.id.iv_collect);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.ll_collect);
+            rlDetail = (RelativeLayout) convertView.findViewById(R.id.rl_detail);
         }
     }
 

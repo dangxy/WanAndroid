@@ -42,7 +42,8 @@
         <activity
             android:name=".module.me.CollectActivity"
             android:label="@string/title_activity_collect"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".module.detail.DetailActivity"></activity>
     </application>
 
 </manifest>

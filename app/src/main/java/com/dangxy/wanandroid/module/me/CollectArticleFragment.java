@@ -1,6 +1,7 @@
 package com.dangxy.wanandroid.module.me;
 
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.dangxy.wanandroid.R;
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.base.BaseLazyFragment;
+import com.dangxy.wanandroid.module.detail.DetailActivity;
 
 import butterknife.BindView;
 
@@ -16,7 +18,7 @@ import butterknife.BindView;
  * @description 描述
  * @date 2018/1/13
  */
-public class CollectArticleFragment extends BaseLazyFragment implements CollectArticleContract.ICollectArticleView {
+public class CollectArticleFragment extends BaseLazyFragment implements CollectArticleContract.ICollectArticleView, CollectArticleAdapter.CollectArticleClickListener {
 
 
     @BindView(R.id.rv_me_collect)
@@ -60,5 +62,13 @@ public class CollectArticleFragment extends BaseLazyFragment implements CollectA
         } else {
             collectArticleAdapter.addAll(collectArticleEntity.getData().getDatas());
         }
+        collectArticleAdapter.setOnDetailClickListener(this);
+    }
+
+    @Override
+    public void onDetailClickListener(String url) {
+        Intent intent = new Intent(mContext, DetailActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.dangxy.wanandroid.module.category.sub;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import com.dangxy.wanandroid.R;
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.base.BaseActivity;
 import com.dangxy.wanandroid.entity.CommonListEntity;
+import com.dangxy.wanandroid.module.detail.DetailActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,7 +20,7 @@ import butterknife.OnClick;
  * @description 描述
  * @date 2018/1/7
  */
-public class CategorySubActivity extends BaseActivity implements CategorySubContract.ICategorySubView {
+public class CategorySubActivity extends BaseActivity implements CategorySubContract.ICategorySubView, CategorySubAdapter.CategorySubClickListener {
 
 
     @BindView(R.id.tv_title)
@@ -57,5 +59,14 @@ public class CategorySubActivity extends BaseActivity implements CategorySubCont
     public void categoryListData(CommonListEntity commonListEntity) {
         CategorySubAdapter categorySubAdapter = new CategorySubAdapter(mContext, commonListEntity.getData().getDatas());
         rvCategorySub.setAdapter(categorySubAdapter);
+        categorySubAdapter.setOnDetailClickListener(this);
+    }
+
+
+    @Override
+    public void onDetailClickListener(String url) {
+        Intent intent = new Intent(mContext, DetailActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 }

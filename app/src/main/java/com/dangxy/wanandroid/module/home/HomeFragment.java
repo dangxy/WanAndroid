@@ -1,6 +1,7 @@
 package com.dangxy.wanandroid.module.home;
 
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.base.BaseLazyFragment;
 import com.dangxy.wanandroid.entity.CommonCollectEntity;
 import com.dangxy.wanandroid.entity.CommonListEntity;
+import com.dangxy.wanandroid.module.detail.DetailActivity;
 import com.dangxy.wanandroid.module.home.adapter.HomeListAdapter;
 import com.dangxy.wanandroid.widget.BannerSwipeRefreshLayout;
 
@@ -118,5 +120,12 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
             mCollectView.setImageResource(R.drawable.icon_collect);
         }
 
+    }
+
+    @Override
+    public void onDetailClickListener(String url) {
+        Intent intent = new Intent(mContext, DetailActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 }

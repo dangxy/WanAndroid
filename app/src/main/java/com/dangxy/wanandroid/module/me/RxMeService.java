@@ -17,4 +17,9 @@ public interface RxMeService {
      */
     @GET("lg/collect/list/{page}/json")
     Observable<CollectArticleEntity> getcollectArticles(@Path("page") int page);
+    /**
+     * 获取网站列表
+     */
+    @GET("lg/collect/usertools/json")
+    Observable<CollectWebsiteEntity> getcollectWebsites();
 }
