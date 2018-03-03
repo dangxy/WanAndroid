@@ -59,6 +59,8 @@ public class MeFragment extends BaseLazyFragment {
             case R.id.rl_me_setting:
                 break;
             case R.id.rl_me_about:
+                Intent intentAbout = new Intent(mContext,AboutActivity.class);
+                startActivity(intentAbout);
                 break;
             default:
                 break;

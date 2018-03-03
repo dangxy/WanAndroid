@@ -1,12 +1,12 @@
 package com.dangxy.wanandroid.api;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.dangxy.wanandroid.BuildConfig;
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.utils.MLog;
 import com.dangxy.wanandroid.utils.NetWorkUtils;
+import com.dangxy.wanandroid.utils.SharedPreferencesUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -155,10 +155,7 @@ public class RetrofitWanAndroid {
                                 cookieBuffer.append(cookie).append(";");
                             }
                         });
-                SharedPreferences sharedPreferences = WanAndroidApplication.getmContext().getSharedPreferences("cookie", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("cookie", cookieBuffer.toString());
-                editor.commit();
+                SharedPreferencesUtil.saveString("cookie",cookieBuffer.toString());
             }
 
             return originalResponse;
@@ -177,8 +174,7 @@ public class RetrofitWanAndroid {
         public Response intercept(Chain chain) throws IOException {
 
             final Request.Builder builder = chain.request().newBuilder();
-            SharedPreferences sharedPreferences = WanAndroidApplication.getmContext().getSharedPreferences("cookie", Context.MODE_PRIVATE);
-            Observable.just(sharedPreferences.getString("cookie", ""))
+            Observable.just(SharedPreferencesUtil.getString("cookie",""))
                     .subscribe(new Action1<String>() {
                         @Override
                         public void call(String cookie) {

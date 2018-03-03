@@ -44,7 +44,8 @@
             android:label="@string/title_activity_collect"
             android:theme="@style/AppTheme" />
         <activity android:name=".module.detail.DetailActivity" />
-        <activity android:name=".module.search.SearchActivity"></activity>
+        <activity android:name=".module.search.SearchActivity" />
+        <activity android:name=".module.me.AboutActivity"></activity>
     </application>
 
 </manifest>

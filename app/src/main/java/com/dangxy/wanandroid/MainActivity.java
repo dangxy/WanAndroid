@@ -1,8 +1,6 @@
 package com.dangxy.wanandroid;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -11,11 +9,13 @@ import android.widget.TextView;
 
 import com.dangxy.wanandroid.base.BaseActivity;
 import com.dangxy.wanandroid.entity.TabEntity;
-import com.dangxy.wanandroid.module.me.MeFragment;
 import com.dangxy.wanandroid.module.category.CategoryFragment;
 import com.dangxy.wanandroid.module.home.HomeFragment;
 import com.dangxy.wanandroid.module.login.LoginActivity;
+import com.dangxy.wanandroid.module.me.MeFragment;
 import com.dangxy.wanandroid.module.search.SearchFragment;
+import com.dangxy.wanandroid.utils.MLog;
+import com.dangxy.wanandroid.utils.SharedPreferencesUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -107,9 +107,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = WanAndroidApplication.getmContext().getSharedPreferences("cookie", Context.MODE_PRIVATE);
-        if(!TextUtils.isEmpty(sharedPreferences.getString("cookie", ""))){
-         findViewById(R.id.tv_login).setVisibility(View.GONE);
+        if(!TextUtils.isEmpty(SharedPreferencesUtil.getString("cookie", ""))){
+          findViewById(R.id.tv_login).setVisibility(View.GONE);
+            MLog.e("DANG",(SharedPreferencesUtil.getString("cookie", "")+"@@@@"));
         }
     }
 }
