@@ -59,17 +59,17 @@ public class HotKeyEntity {
          */
 
         @SerializedName("id")
-        private int id;
+        private String id;
         @SerializedName("name")
         private String name;
         @SerializedName("link")
-        private Object link;
+        private String link;
         @SerializedName("visible")
         private int visible;
         @SerializedName("order")
         private int order;
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -77,7 +77,7 @@ public class HotKeyEntity {
             this.name = name;
         }
 
-        public void setLink(Object link) {
+        public void setLink(String link) {
             this.link = link;
         }
 
@@ -89,7 +89,7 @@ public class HotKeyEntity {
             this.order = order;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
@@ -97,7 +97,7 @@ public class HotKeyEntity {
             return name;
         }
 
-        public Object getLink() {
+        public String getLink() {
             return link;
         }
 

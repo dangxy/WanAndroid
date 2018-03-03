@@ -2,6 +2,7 @@ package com.dangxy.wanandroid.module.category.sub;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +50,16 @@ public class CategorySubAdapter extends RecyclerView.Adapter<CategorySubAdapter.
 
     @Override
     public void onBindViewHolder(CategorySubAdapter.ViewHolder holder, final int position) {
+        if(!TextUtils.isEmpty(listEntities.get(position).getTitle())){
+            if(listEntities.get(position).getTitle().contains("<em class='highlight'>")){
+                holder.title.setText(listEntities.get(position).getTitle().replace("<em class='highlight'>","").replace("</em>",""));
 
-        holder.title.setText(listEntities.get(position).getTitle());
+            }else {
+                holder.title.setText(listEntities.get(position).getTitle());
+            }
+
+        }
+
         holder.summary.setText(listEntities.get(position).getAuthor());
         holder.more.setText(listEntities.get(position).getNiceDate());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {

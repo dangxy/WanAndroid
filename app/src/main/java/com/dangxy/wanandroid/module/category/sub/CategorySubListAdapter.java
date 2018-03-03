@@ -1,6 +1,7 @@
 package com.dangxy.wanandroid.module.category.sub;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class CategorySubListAdapter extends RecyclerView.Adapter<CategorySubList
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
 
         holder.title.setText(listEntities.get(position).getName());
 

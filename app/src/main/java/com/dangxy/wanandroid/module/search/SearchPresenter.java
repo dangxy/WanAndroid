@@ -1,7 +1,13 @@
 package com.dangxy.wanandroid.module.search;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.dangxy.wanandroid.WanAndroidApplication;
 import com.dangxy.wanandroid.api.RetrofitWanAndroid;
+import com.dangxy.wanandroid.entity.CommonListEntity;
+import com.dangxy.wanandroid.utils.LoadMoreDelegate;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -14,11 +20,16 @@ import io.reactivex.schedulers.Schedulers;
  * @date 2018/1/13
  */
 
-public class SearchPresenter implements  SearchContract.ISearchPresenter {
+public class SearchPresenter implements SearchContract.ISearchPresenter, LoadMoreDelegate.LoadMoreSubject {
 
     private SearchContract.ISearchView iSearchView;
 
-  private RxSearchService rxSearchService = new RetrofitWanAndroid().newInstance(WanAndroidApplication.getmContext()).create(RxSearchService.class);
+    private RxSearchService rxSearchService = new RetrofitWanAndroid().newInstance(WanAndroidApplication.getmContext()).create(RxSearchService.class);
+    private LoadMoreDelegate loadMoreDelegate;
+    private RecyclerView mRecyclerView;
+    private AtomicInteger loadingCount;
+    private int mPage = 0;
+    private String mKey;
 
     public SearchPresenter(SearchContract.ISearchView iSearchView) {
         this.iSearchView = iSearchView;
@@ -29,7 +40,15 @@ public class SearchPresenter implements  SearchContract.ISearchPresenter {
         getWebsite();
         getHotKey();
     }
-    public void getWebsite(){
+
+    public void setRefresh(RecyclerView recyclerView) {
+        this.mRecyclerView = recyclerView;
+        loadMoreDelegate = new LoadMoreDelegate(this);
+        loadMoreDelegate.attach(mRecyclerView);
+        loadingCount = new AtomicInteger(0);
+    }
+
+    public void getWebsite() {
         rxSearchService
                 .getWebsite()
                 .subscribeOn(Schedulers.io())
@@ -49,7 +68,8 @@ public class SearchPresenter implements  SearchContract.ISearchPresenter {
                     }
                 });
     }
-public void getHotKey(){
+
+    public void getHotKey() {
         rxSearchService
                 .getHotKey()
                 .subscribeOn(Schedulers.io())
@@ -70,6 +90,54 @@ public void getHotKey(){
                 });
     }
 
+    public void getSearchKey(String key, int page) {
+        this.mKey = key;
+        this.mPage= page;
+        rxSearchService
+                .getSearchListData(page, key)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        notifyLoadingStarted();
+                        iSearchView.showLoading();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<CommonListEntity>() {
+                    @Override
+                    public void accept(CommonListEntity commonListEntity) throws Exception {
+                        notifyLoadingFinished();
+                        iSearchView.hideLoading();
+                        iSearchView.getSearchKey(commonListEntity);
+                        mPage++;
+
+                    }
+
+                });
+    }
 
 
+    @Override
+    public boolean isLoading() {
+        return loadingCount.get() > 0;
+    }
+
+    @Override
+    public void onLoadMore() {
+
+        getSearchKey(mKey, mPage);
+    }
+
+    public void notifyLoadingStarted() {
+
+        //loadingCount.getAndIncrement();
+    }
+
+
+    public void notifyLoadingFinished() {
+
+        //loadingCount.decrementAndGet();
+    }
 }

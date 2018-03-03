@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dangxy.wanandroid.module.search.SearchActivity">
+    <LinearLayout
+        android:id="@+id/ll_search_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:background="?attr/colorPrimary"
+        >
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/background_stroke_ring_gray">
+
+        <EditText
+            android:id="@+id/et_search_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="搜索课程或者计划"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textColor="@color/color_222f3b"
+            android:textColorHint="@color/color_808e97"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iv_search_delete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/icon_search_delete"
+            android:padding="15dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ll_search_title"
+        android:background="@color/color_f5f5f5"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rlv_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="42dp">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>

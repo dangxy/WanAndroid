@@ -60,7 +60,7 @@ public class WebsitesEntity {
          */
 
         @SerializedName("id")
-        private int id;
+        private String id;
         @SerializedName("name")
         private String name;
         @SerializedName("link")
@@ -72,7 +72,7 @@ public class WebsitesEntity {
         @SerializedName("icon")
         private Object icon;
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -96,7 +96,7 @@ public class WebsitesEntity {
             this.icon = icon;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
