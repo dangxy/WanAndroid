@@ -2,7 +2,6 @@ package com.dangxy.wanandroid.module.me;
 
 
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -23,8 +22,6 @@ public class CollectWebsiteFragment extends BaseLazyFragment implements CollectW
 
     @BindView(R.id.rv_me_website)
     RecyclerView rvMeWebsite;
-    @BindView(R.id.spl_me_website)
-    SwipeRefreshLayout splMeWebsite;
     private CollectWebSitePresenter collectWebSitePresenter;
     private CollectWebsiteAdapter collectWebsiteAapter;
 

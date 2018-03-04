@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.dangxy.wanandroid.module.me.AddCollectActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="添加收藏"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="@color/common_color_white"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_add_collect_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:src="@drawable/icon_back" />
+        <TextView
+            android:id="@+id/tv_add_collect_add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="添加"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:textColor="@color/common_color_white"
+            android:layout_alignParentRight="true"
+            android:textSize="12sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f5f5f5"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_add_collect_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/common_color_white"
+            android:layout_marginTop="10dp"
+            android:hint="名称"
+            android:paddingLeft="10dp"
+            android:textSize="14sp"
+            android:focusable="true"
+            android:textColorHint="@color/color_808e97"
+            android:textColor="@color/color_222f3b"
+            />
+        <EditText
+            android:id="@+id/et_add_collect_url"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/common_color_white"
+            android:hint="地址"
+            android:paddingLeft="10dp"
+            android:textSize="14sp"
+            android:textColorHint="@color/color_808e97"
+            android:textColor="@color/color_222f3b"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

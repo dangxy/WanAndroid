@@ -1,5 +1,7 @@
 package com.dangxy.wanandroid.module.me;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +34,7 @@ public class CollectActivity extends AppCompatActivity {
     FloatingActionButton fab;
     @BindView(R.id.iv_back)
     ImageView imageView;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +43,13 @@ public class CollectActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
+        mContext= this;
         setSupportActionBar(toolbar);
         CollectAdapter collectAdapter = new CollectAdapter(getSupportFragmentManager());
         vpCollect.setOffscreenPageLimit(1);
         vpCollect.setAdapter(collectAdapter);
         tlCollectList.setupWithViewPager(vpCollect);
+        fab.setVisibility(View.GONE);
         vpCollect.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -56,7 +61,7 @@ public class CollectActivity extends AppCompatActivity {
                 if(position==1){
                     fab.setVisibility(View.VISIBLE);
                 }else {
-                    fab.setVisibility(View.INVISIBLE);
+                    fab.setVisibility(View.GONE);
                 }
 
             }
@@ -71,6 +76,9 @@ public class CollectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
+                Intent intent = new Intent(mContext,AddCollectActivity.class);
+                startActivity(intent);
             }
         });
 

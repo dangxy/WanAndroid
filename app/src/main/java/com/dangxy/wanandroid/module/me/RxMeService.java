@@ -22,4 +22,5 @@ public interface RxMeService {
      */
     @GET("lg/collect/usertools/json")
     Observable<CollectWebsiteEntity> getcollectWebsites();
+
 }
