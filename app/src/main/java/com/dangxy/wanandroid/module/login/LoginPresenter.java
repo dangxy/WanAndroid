@@ -50,5 +50,25 @@ public class LoginPresenter implements LoginContract.ILoginPresenter {
 
                     }
                 });
+    }  public void register(String username,String password,String rePassword){
+        rxLoginService.register(username,password,rePassword)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+
+                            iLoginView.showLoading();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<LoginEntity>() {
+                    @Override
+                    public void accept(LoginEntity loginEntity) throws Exception {
+                        iLoginView.hideLoading();
+                        iLoginView.register(loginEntity);
+
+                    }
+                });
     }
 }

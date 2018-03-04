@@ -55,4 +55,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
         }
 
     }
+
+    @Override
+    public void register(LoginEntity loginEntity) {
+
+    }
 }

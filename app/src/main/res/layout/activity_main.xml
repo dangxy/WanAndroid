@@ -30,7 +30,7 @@
             android:id="@+id/tv_login"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:text="登录"
+            android:text="注册"
             android:layout_alignParentRight="true"
            android:gravity="center"
             android:textColor="@color/common_color_white"

@@ -30,7 +30,7 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="搜索课程或者计划"
+            android:hint="搜索课程"
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:gravity="center"

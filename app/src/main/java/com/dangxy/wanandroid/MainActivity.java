@@ -11,7 +11,7 @@ import com.dangxy.wanandroid.base.BaseActivity;
 import com.dangxy.wanandroid.entity.TabEntity;
 import com.dangxy.wanandroid.module.category.CategoryFragment;
 import com.dangxy.wanandroid.module.home.HomeFragment;
-import com.dangxy.wanandroid.module.login.LoginActivity;
+import com.dangxy.wanandroid.module.login.RegisterActivity;
 import com.dangxy.wanandroid.module.me.MeFragment;
 import com.dangxy.wanandroid.module.search.SearchFragment;
 import com.dangxy.wanandroid.utils.MLog;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.tv_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, LoginActivity.class);
+                Intent intent = new Intent(mContext, RegisterActivity.class);
                 startActivity(intent);
             }
         });

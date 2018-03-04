@@ -32,7 +32,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
-                    android:hint="搜索课程或者计划"
+                    android:hint="搜索文章"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:textColor="@color/color_222f3b"

@@ -14,10 +14,21 @@ import retrofit2.http.POST;
 public interface RxLoginService {
 
     /**
-     * 搜索
+     * 登录
      * @return
      */
     @FormUrlEncoded
     @POST("user/login")
     Observable<LoginEntity> loginWithPassword(@Field("username")String username, @Field("password")String  keyWords);
+
+    /**
+     * 注册
+     * @param username
+     * @param keyWords
+     * @param repassword
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    Observable<LoginEntity> register(@Field("username")String username, @Field("password")String  keyWords,@Field("repassword")String  repassword);
 }

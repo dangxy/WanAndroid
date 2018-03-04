@@ -15,6 +15,8 @@ public interface LoginContract {
          * @param loginEntity
          */
         void loginWithPassword(LoginEntity loginEntity);
+
+        void register(LoginEntity loginEntity);
     }
 
     interface ILoginPresenter extends IBasePresenter {
