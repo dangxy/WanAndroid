@@ -1,16 +1,13 @@
 ## WanAndroid
-# WanAndroidClient
 
 ## WanAndroidClient 简介
-
-该应用是WanAndroid客户端
 
 **本项目是有WanAndroid网站提供数据**
 
 
 ## 内容
 
-<img src="https://ws4.sinaimg.cn/large/006tNc79ly1fp0uuwk4j7g30c809676g.gif" width="40%" alt=""/>
+<img src="https://ws4.sinaimg.cn/large/006tNc79ly1fp0uuwk4j7g30c809676g.gif" width="70%" alt=""/>
 
 ## 技术
 
@@ -62,7 +59,7 @@
 
 **本项目会持续的迭代 增加新的功能 新的技能点 欢迎star提出issue**
 	
-###  1.1版本增加内容
+###  1.0.1版本增加内容
  
  - 数据缓存
  
@@ -80,7 +77,8 @@
 ## 致谢
 
  -  [drakeet](https://github.com/drakeet)
- -  [WanAndroid](https://wanandroid.com/) 
+ -  [WanAndroid](https://wanandroid.com) 
+ 
  **本数据的所有权归WanAndroid所有 严禁商用**
 
 
