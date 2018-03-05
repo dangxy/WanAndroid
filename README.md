@@ -1,5 +1,7 @@
 ## WanAndroid
 
+[项目地址](https://github.com/dangxy/WanAndroid )
+
 ## WanAndroidClient 简介
 
 **本项目是有WanAndroid网站提供数据**
@@ -17,23 +19,23 @@
 
 3. [Rxjava](https://github.com/ReactiveX/RxJava)
 
-3. [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+4. [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 
-4. [Room](https://developer.android.com/topic/libraries/architecture/room.html) 
+5. [Room](https://developer.android.com/topic/libraries/architecture/room.html) 
 
-5. [Glide](https://github.com/bumptech/glide)
+6. [Glide](https://github.com/bumptech/glide)
 
-6. [Logger](https://github.com/orhanobut/logger)
+7. [Logger](https://github.com/orhanobut/logger)
 
-7. [RxLifecycle](https://github.com/trello/RxLifecycle)
+8. [RxLifecycle](https://github.com/trello/RxLifecycle)
 
-7. [懒加载](https://github.com/dangxy/Readhub/blob/master/app/src/main/java/com/dangxy/readhub/base/BaseLazyFragment.java)
+9. [懒加载](https://github.com/dangxy/Readhub/blob/master/app/src/main/java/com/dangxy/readhub/base/BaseLazyFragment.java)
 
-8. [缓存](https://developer.android.com/topic/libraries/architecture/room.html) 
+10. [缓存](https://developer.android.com/topic/libraries/architecture/room.html) 
 
-9. [RxPermissions](https://github.com/tbruyelle/RxPermissions)
+11. [RxPermissions](https://github.com/tbruyelle/RxPermissions)
 
-10. CoordinatorLayout + AppBarLayout + TabLayout
+12. CoordinatorLayout + AppBarLayout + TabLayout
 
 ## 项目结构
 
@@ -42,15 +44,15 @@
 - base            基类封装
 
 - mode-category   分类
- 
+
 - mode-home       首页
 
 - mode-search     搜索
- 
+
 - mode-me         我的
 
 - room            数据库
- 
+
 - utils           工具类
 
 - widget          自定义控件
@@ -58,11 +60,11 @@
 ## 需要增加内容
 
 **本项目会持续的迭代 增加新的功能 新的技能点 欢迎star提出issue**
-	
+​	
 ###  1.0.1版本增加内容
- 
+
  - 数据缓存
- 
+
 ## 版本
 
 ### 1.0版本
@@ -78,7 +80,7 @@
 
  -  [drakeet](https://github.com/drakeet)
  -  [WanAndroid](https://wanandroid.com) 
- 
+
  **本数据的所有权归WanAndroid所有 严禁商用**
 
 
