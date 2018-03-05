@@ -1,6 +1,10 @@
 package com.dangxy.wanandroid.module.detail;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -11,16 +15,16 @@ import android.widget.TextView;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.dangxy.wanandroid.R;
-import com.dangxy.wanandroid.base.BaseActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 /**
  * @description  描述
  * @author  dangxy99
  * @date   2018/1/13
  */
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -33,7 +37,6 @@ public class DetailActivity extends BaseActivity {
     private String url;
 
 
-    @Override
     protected void initView() {
         url = getIntent().getStringExtra("url");
         WebSettings webSettings = wvUrl.getSettings();
@@ -44,6 +47,9 @@ public class DetailActivity extends BaseActivity {
         webSettings.setBuiltInZoomControls(false);
         webSettings.setJavaScriptEnabled(true);
         wvUrl.loadUrl(url);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
         WebChromeClient webChromeClient = new WebChromeClient() {
             @Override
@@ -91,9 +97,14 @@ public class DetailActivity extends BaseActivity {
     }
 
 
+
+
     @Override
-    protected int attachLayoutRes() {
-        return R.layout.activity_detail;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
+        initView();
     }
 
     @OnClick(R.id.iv_back)

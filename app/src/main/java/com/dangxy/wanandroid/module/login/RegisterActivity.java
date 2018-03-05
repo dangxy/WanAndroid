@@ -54,6 +54,7 @@ public class RegisterActivity extends BaseActivity implements LoginContract.ILog
             case R.id.tv_register_login:
                 Intent intent = new Intent(mContext, LoginActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             default:
                 break;
