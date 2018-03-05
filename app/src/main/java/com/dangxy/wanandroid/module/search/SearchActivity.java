@@ -1,5 +1,6 @@
 package com.dangxy.wanandroid.module.search;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,8 +23,16 @@ import com.dangxy.wanandroid.base.BaseActivity;
 import com.dangxy.wanandroid.entity.CommonListEntity;
 import com.dangxy.wanandroid.module.category.sub.CategorySubAdapter;
 import com.dangxy.wanandroid.module.detail.DetailActivity;
+import com.dangxy.wanandroid.module.room.SearchDataBase;
+import com.dangxy.wanandroid.module.room.SearchEntity;
+
+import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author dangxy99
@@ -39,10 +48,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
     ImageView ivSearchDelete;
     @BindView(R.id.rlv_search_result)
     RecyclerView rlvSearchResult;
+    @BindView(R.id.rlv_search_history)
+    RecyclerView rlvSearchHistory;
     private int page = 0;
     private SearchPresenter searchPresenter;
     private CategorySubAdapter categorySubAdapter;
     private String key;
+    private SearchDataBase searchDataBase;
+    private SearchHistoryAdapter searchHistoryAdapter;
 
     @Override
     protected void initView() {
@@ -56,6 +69,15 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
 
 
         }
+        searchDataBase =   Room.databaseBuilder(this, SearchDataBase.class,"search-data").build();
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WanAndroidApplication.getmContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rlvSearchHistory.setLayoutManager(linearLayoutManager);
+
+        searchAll();
+
 
         etSearchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -71,6 +93,19 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
                     }
                     if (!TextUtils.isEmpty(etSearchContent.getText().toString())) {
                         searchPresenter.getSearchKey(etSearchContent.getText().toString(), page);
+                        Observable.just(1)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(Schedulers.newThread())
+                                .subscribe(new Consumer<Integer>() {
+                                    @Override
+                                    public void accept(Integer integer) throws Exception {
+                                        SearchEntity searchEntity = new SearchEntity(etSearchContent.getText().toString(),"1");
+                                        searchDataBase.searchDao().addSearch(searchEntity);
+                                    }
+                                });
+
+
+
                     } else {
                         Toast.makeText(WanAndroidApplication.getmContext(), "请输入要搜索的名字~", Toast.LENGTH_SHORT).show();
                         return true;
@@ -105,12 +140,41 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
                 etSearchContent.setText("");
                 rlvSearchResult.setVisibility(View.GONE);
                 ivSearchDelete.setVisibility(View.GONE);
+                rlvSearchHistory.setVisibility(View.VISIBLE);
 
             }
         });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WanAndroidApplication.getmContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rlvSearchResult.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManagerResult = new LinearLayoutManager(WanAndroidApplication.getmContext());
+        linearLayoutManagerResult.setOrientation(LinearLayoutManager.VERTICAL);
+        rlvSearchResult.setLayoutManager(linearLayoutManagerResult);
+    }
+
+    private void searchAll() {
+        searchDataBase.searchDao().findAllSearch()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<List<SearchEntity>>() {
+                    @Override
+                    public void accept(List<SearchEntity> searchEntities) throws Exception {
+
+                        if(searchEntities.size()>0){
+                            rlvSearchHistory.setVisibility(View.VISIBLE);
+                            rlvSearchResult.setVisibility(View.GONE);
+                            searchHistoryAdapter =  new SearchHistoryAdapter(searchEntities);
+                            rlvSearchHistory.setAdapter(searchHistoryAdapter);
+                            searchHistoryAdapter.setOnDetailClickListener(new SearchHistoryAdapter.SearchClickListener() {
+                                @Override
+                                public void onDetailClickListener(SearchEntity entity) {
+                                    etSearchContent.setText(entity.getName());
+                                    searchPresenter.getSearchKey(entity.getName(),page);
+                                    rlvSearchHistory.setVisibility(View.GONE);
+                                    rlvSearchResult.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
+                    }
+                });
+
     }
 
     @Override
@@ -130,6 +194,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
 
     @Override
     public void getSearchKey(CommonListEntity commonListEntity) {
+        rlvSearchResult.setVisibility(View.VISIBLE);
+        rlvSearchHistory.setVisibility(View.GONE);
         if (page == 0) {
             categorySubAdapter = new CategorySubAdapter(mContext, commonListEntity.getData().getDatas());
             rlvSearchResult.setAdapter(categorySubAdapter);
