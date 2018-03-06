@@ -38,6 +38,7 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
     private BannerEntity bannerEntity;
     private ArrayList<String> imageUrlList = new ArrayList<>();
     private ArrayList<String> imageTitleList = new ArrayList<>();
+    private ArrayList<String> imageTargetUrlList = new ArrayList<>();
     private ImageView mCollectView;
 
     public HomeFragment() {
@@ -70,13 +71,14 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
                 ) {
             imageUrlList.add(dataBean.getImagePath());
             imageTitleList.add(dataBean.getTitle());
+            imageTargetUrlList.add(dataBean.getUrl());
         }
     }
 
     @Override
     public void homeData(CommonListEntity commonListEntity, int page) {
         if (page == 0) {
-            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList, imageTitleList);
+            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList, imageTitleList,imageTargetUrlList);
             rvHome.setAdapter(homeListAdapter);
             homeListAdapter.setOnDetailClickListener(this);
         } else {

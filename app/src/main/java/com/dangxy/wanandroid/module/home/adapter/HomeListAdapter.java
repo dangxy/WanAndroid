@@ -1,6 +1,7 @@
 package com.dangxy.wanandroid.module.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.TextView;
 
 import com.dangxy.wanandroid.R;
 import com.dangxy.wanandroid.entity.CommonListEntity;
+import com.dangxy.wanandroid.module.detail.DetailActivity;
 import com.dangxy.wanandroid.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private ArrayList<String> mImageUrllist;
     private ArrayList<String> mImageTitleList;
+    private ArrayList<String> mImageTargetUrlList;
     private List<CommonListEntity.DataBean.DatasBean> listEntities = new ArrayList<>();
     public static final int ITEM_TYPE_HEADER = 0;
     public static final int ITEM_TYPE_CONTENT = 1;
@@ -36,12 +40,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int mHeaderCount = 1;
     private CollectClickListener mCollectClickListener;
 
-    public HomeListAdapter(Context context, List<CommonListEntity.DataBean.DatasBean> listEntities, ArrayList<String> imageUrlList, ArrayList<String> imageTitleList) {
+    public HomeListAdapter(Context context, List<CommonListEntity.DataBean.DatasBean> listEntities, ArrayList<String> imageUrlList, ArrayList<String> imageTitleList,ArrayList<String> imageTargetUrlList) {
         this.listEntities = listEntities;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         this.mImageUrllist = imageUrlList;
         this.mImageTitleList = imageTitleList;
+        this.mImageTargetUrlList= imageTargetUrlList;
     }
 
     public interface CollectClickListener {
@@ -79,6 +84,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((HeaderViewHolder) holder).viewPager.setDelayTime(2500);
             ((HeaderViewHolder) holder).viewPager.setIndicatorGravity(BannerConfig.CENTER);
             ((HeaderViewHolder) holder).viewPager.start();
+            ((HeaderViewHolder) holder).viewPager.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    Intent intent = new Intent(mContext, DetailActivity.class);
+                    intent.putExtra("url", mImageTargetUrlList.get(position));
+                    mContext.startActivity(intent);
+                }
+            });
+
         } else if (holder instanceof BodyViewHolder) {
             ((BodyViewHolder) holder).title.setText(listEntities.get(position - 1).getTitle());
             ((BodyViewHolder) holder).summary.setText(listEntities.get(position - 1).getAuthor());

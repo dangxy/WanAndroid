@@ -41,7 +41,7 @@ public class HomeBannerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.home_banner_layout, null);
         ImageView imageView = linearLayout.findViewById(R.id.iv_banner);
         Glide.with(mContext).load(mArrayList.get(position).getImagePath()).into(imageView);
