@@ -1,15 +1,13 @@
 package com.dangxy.wanandroid.module.me;
 
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dangxy.wanandroid.R;
+import com.dangxy.wanandroid.api.persistence.SharedPrefsCookiePersistor;
 import com.dangxy.wanandroid.base.BaseActivity;
-import com.dangxy.wanandroid.utils.MLog;
-import com.dangxy.wanandroid.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,8 +30,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        MLog.e("DANG",(SharedPreferencesUtil.getString("cookie", "")+"+++"));
-        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString("cookie", ""))) {
+        if (new SharedPrefsCookiePersistor(this).isLogin()) {
             findViewById(R.id.tv_login_out).setVisibility(View.VISIBLE);
         }else{
             findViewById(R.id.tv_login_out).setVisibility(View.GONE);
@@ -42,12 +39,7 @@ public class AboutActivity extends BaseActivity {
         findViewById(R.id.tv_login_out).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (!TextUtils.isEmpty(SharedPreferencesUtil.getString("cookie", ""))) {
-
-                    SharedPreferencesUtil.removeValue("cookie");
-                      MLog.e("DANG",(SharedPreferencesUtil.getString("cookie", "")+"---"));
-                }
+                new SharedPrefsCookiePersistor(mContext).clear();
             }
         });
     }

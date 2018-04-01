@@ -4,9 +4,10 @@ import android.content.Context;
 
 import com.dangxy.wanandroid.BuildConfig;
 import com.dangxy.wanandroid.WanAndroidApplication;
+import com.dangxy.wanandroid.api.cache.SetCookieCache;
+import com.dangxy.wanandroid.api.persistence.SharedPrefsCookiePersistor;
 import com.dangxy.wanandroid.utils.MLog;
 import com.dangxy.wanandroid.utils.NetWorkUtils;
-import com.dangxy.wanandroid.utils.SharedPreferencesUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * @author dangxueyi
@@ -48,6 +46,10 @@ public class RetrofitWanAndroid {
         return retrofit;
     }
 
+    ClearableCookieJar cookieJar =
+            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(WanAndroidApplication.getmContext()));
+
+
     public OkHttpClient okhttpClient(Context mContext) {
         File cacheFile = new File(mContext.getCacheDir(), "wan-android");
         Cache cache = new Cache(cacheFile, CACHE_SIZE);
@@ -60,8 +62,7 @@ public class RetrofitWanAndroid {
                             .setLevel(BuildConfig.DEBUG ?
                                     HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                     .addInterceptor(new LoggingInterceptor())
-                    .addInterceptor(new AddCookiesInterceptor())
-                    .addInterceptor(new ResponseCookieInterceptor())
+                    .cookieJar(cookieJar)
                     .addNetworkInterceptor(mCacheControlInterceptor).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,60 +131,5 @@ public class RetrofitWanAndroid {
         }
     }
 
-    public class ResponseCookieInterceptor implements Interceptor {
-
-        public ResponseCookieInterceptor() {
-            super();
-        }
-        @Override
-        public Response intercept(Interceptor.Chain chain) throws IOException {
-
-            Response originalResponse = chain.proceed(chain.request());
-            if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-                final StringBuffer cookieBuffer = new StringBuffer();
-                Observable.from(originalResponse.headers("Set-Cookie"))
-                        .map(new Func1<String, String>() {
-                            @Override
-                            public String call(String s) {
-                                String[] cookieArray = s.split(";");
-                                return cookieArray[0];
-                            }
-                        })
-                        .subscribe(new Action1<String>() {
-                            @Override
-                            public void call(String cookie) {
-                                cookieBuffer.append(cookie).append(";");
-                            }
-                        });
-                SharedPreferencesUtil.saveString("cookie",cookieBuffer.toString());
-            }
-
-            return originalResponse;
-        }
-
-    }
-
-    public class AddCookiesInterceptor implements Interceptor {
-
-        public AddCookiesInterceptor() {
-            super();
-
-        }
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-
-            final Request.Builder builder = chain.request().newBuilder();
-            Observable.just(SharedPreferencesUtil.getString("cookie",""))
-                    .subscribe(new Action1<String>() {
-                        @Override
-                        public void call(String cookie) {
-                            //添加cookie
-                            builder.addHeader("Cookie", cookie);
-                        }
-                    });
-            return chain.proceed(builder.build());
-        }
-    }
 
 }

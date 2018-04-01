@@ -66,9 +66,23 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        homePresenter.getData();
+    }
+
+    @Override
     public void bannerData(BannerEntity bannerEntity) {
-        for (BannerEntity.DataBean dataBean : bannerEntity.getData()
-                ) {
+        if (imageUrlList.size() > 0) {
+            imageUrlList.clear();
+        }
+        if (imageTitleList.size() > 0) {
+            imageTitleList.clear();
+        }
+        if (imageTargetUrlList.size() > 0) {
+            imageTargetUrlList.clear();
+        }
+        for (BannerEntity.DataBean dataBean : bannerEntity.getData()) {
             imageUrlList.add(dataBean.getImagePath());
             imageTitleList.add(dataBean.getTitle());
             imageTargetUrlList.add(dataBean.getUrl());
@@ -78,7 +92,7 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
     @Override
     public void homeData(CommonListEntity commonListEntity, int page) {
         if (page == 0) {
-            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList, imageTitleList,imageTargetUrlList);
+            homeListAdapter = new HomeListAdapter(mContext, commonListEntity.getData().getDatas(), imageUrlList, imageTitleList, imageTargetUrlList);
             rvHome.setAdapter(homeListAdapter);
             homeListAdapter.setOnDetailClickListener(this);
         } else {
