@@ -35,7 +35,6 @@ public class HomeFragment extends BaseLazyFragment implements HomeContract.IHome
     RecyclerView rvHome;
     private HomePresenter homePresenter;
     private HomeListAdapter homeListAdapter;
-    private BannerEntity bannerEntity;
     private ArrayList<String> imageUrlList = new ArrayList<>();
     private ArrayList<String> imageTitleList = new ArrayList<>();
     private ArrayList<String> imageTargetUrlList = new ArrayList<>();

@@ -31,6 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -77,8 +78,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
         rlvSearchHistory.setLayoutManager(linearLayoutManager);
 
         searchAll();
-
-
         etSearchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -93,7 +92,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
                     }
                     if (!TextUtils.isEmpty(etSearchContent.getText().toString())) {
                         searchPresenter.getSearchKey(etSearchContent.getText().toString(), page);
-                        Observable.just(1)
+                        CompositeDisposable compositeDisposable = new CompositeDisposable();
+                        compositeDisposable.add(Observable.just(1)
+
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(Schedulers.newThread())
                                 .subscribe(new Consumer<Integer>() {
@@ -102,7 +103,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
                                         SearchEntity searchEntity = new SearchEntity(etSearchContent.getText().toString(),"1");
                                         searchDataBase.searchDao().addSearch(searchEntity);
                                     }
-                                });
+                                }));
+                        compositeDisposable.dispose();
 
 
 
@@ -150,6 +152,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.ISear
     }
 
     private void searchAll() {
+
         searchDataBase.searchDao().findAllSearch()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
